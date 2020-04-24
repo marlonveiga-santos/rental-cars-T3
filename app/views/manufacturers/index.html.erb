@@ -5,7 +5,7 @@
   <% else %>
   <% @manufacturers.each do |m| %>
     <li>
-      <%= link_to m.name, m %> <!--manufacturer_path(id: m.id)-->
+      <%= link_to m.name, m %> <%#= manufacturer_path(id: m.id) %>
     </li>
     <%end%>
     <%= link_to 'Voltar', root_path %>
