@@ -5,7 +5,6 @@ class ManufacturersController < ApplicationController
     end
 
     def show
-        id = params[:id]
         @manufacturer = Manufacturer.find(id)
     end
 
@@ -23,12 +22,10 @@ class ManufacturersController < ApplicationController
     end
 
     def edit
-        id = params[:id]
         @manufacturer = Manufacturer.find(id)
     end
 
     def update
-        id = params[:id]
         @manufacturer = Manufacturer.find(id)
         @manufacturer.update(manufacturer_params)
         if @manufacturer.save
@@ -43,5 +40,10 @@ class ManufacturersController < ApplicationController
     def manufacturer_params
         params.require(:manufacturer).permit(:name)
     end
+
+    def id
+        id = params[:id]
+    end
+    
 
 end
