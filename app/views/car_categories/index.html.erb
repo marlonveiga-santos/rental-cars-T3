@@ -1,9 +1,14 @@
 <h1> Categorias de Carros </h1>
 
+<% if @car_categories.empty? %>
+<h1>  Nenhuma categoria de carro cadastrada</h1>
+<% else %>
 <% @car_categories.each do |cat| %>
-    <h2>Categoria <%= cat.name %></h2>
+    <h2> <%= link_to "Categoria #{cat.name}", cat %> </h2>
       <dl>
         <dt> Valor da diária </dt>
         <dd> <%= number_to_currency cat.daily_rate %> </dd>
       </dl>
-<% end %>
+      <%end%>
+      <%= link_to 'Voltar', root_path %>
+  <% end %>
