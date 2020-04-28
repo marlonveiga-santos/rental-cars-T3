@@ -35,6 +35,12 @@ class ManufacturersController < ApplicationController
     end
     end
 
+    def destroy
+        @manufacturer = Manufacturer.find(id)
+        @manufacturer.destroy
+        redirect_to @manufacturer
+    end
+
     private
 
     def manufacturer_params
