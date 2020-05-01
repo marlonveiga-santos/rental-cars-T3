@@ -1,10 +1,19 @@
-<h1> Categoria <%= @car_category.name %> </h1>
+<section>
+  <header>
+    <h1> Categoria <%= @car_category.name %> </h1>
+  </header>
+    <dl>
+      <dt>Diária:</dt>
+      <dd><%= number_to_currency @car_category.daily_rate%></dd>
+      <dt>Seguro do carro:</dt>
+      <dd><%= number_to_currency @car_category.car_insurance%></dd>
+      <dt>Seguro para terceiros:</dt>
+      <dd><%= number_to_currency @car_category.third_part_insurance%></dd>
+    </dl>
 
-<dl>
-  <dt>Diária:</dt>
-  <dd><%= number_to_currency @car_category.daily_rate%></dd>
-  <dt>Seguro do carro:</dt>
-  <dd><%= number_to_currency @car_category.car_insurance%></dd>
-  <dt>Seguro para terceiros:</dt>
-  <dd><%= number_to_currency @car_category.third_part_insurance%></dd>
-</dl>
+    <h3>Modelos de carro</h3>
+    <% @car_category.car_models.each do |car_model| %>
+      <%= link_to car_model.name, car_model %>
+    <% end %>
+    <%= link_to 'Voltar', car_categories_path %>
+</section>

@@ -21,8 +21,18 @@ feature 'Admin view car categories' do
 
     scenario 'and view car category details' do
         # Arrange
-        CarCategory.create!(name: 'A', daily_rate: 50, car_insurance: 50, third_part_insurance: 30)
-        CarCategory.create!(name: 'B', daily_rate: 70, car_insurance: 50, third_part_insurance: 30)
+        car_category = CarCategory.create!(name: 'A', daily_rate: 50, car_insurance: 40, 
+                                                third_part_insurance: 30)
+        
+        manufacturer = Manufacturer.create!(name: 'Fiat')
+
+        uno = CarModel.create!(name: 'Uno', year: 2020, manufacturer: manufacturer,
+                         motorization: 1.0, fuel_type: 'Flex', 
+                        car_category: car_category)
+        
+        mobi = CarModel.create!(name: 'Mobi', year: 2019, manufacturer: manufacturer,
+                         motorization: 1.0, fuel_type: 'Flex', 
+                         car_category: car_category)
 
         # Act
         visit root_path
@@ -30,10 +40,16 @@ feature 'Admin view car categories' do
         click_on 'Categoria A'
 
         # Assert
-        expect(page).to have_content 'Categoria A'
+        expect(page).to have_css('header h1', text:'Categoria A')
         expect(page).to have_content 'Diária: R$ 50,00'
-        expect(page).to have_content 'Seguro do carro: R$ 50,00'
+        expect(page).to have_content 'Seguro do carro: R$ 40,00'
         expect(page).to have_content 'Seguro para terceiros: R$ 30,00'
+        expect(page).to have_css('dd:nth-of-type(1)', text: 'R$ 50,00')
+        expect(page).to have_css('dd:nth-of-type(2)', text: 'R$ 40,00')
+        expect(page).to have_css('dd:nth-of-type(3)', text: 'R$ 30,00')
+        expect(page).to have_link('Uno', href: car_model_path(uno))
+        expect(page).to have_link('Mobi', href: car_model_path(mobi))
+        expect(page).to have_link('Voltar', href: car_categories_path)
 
     end
 
@@ -42,5 +58,39 @@ feature 'Admin view car categories' do
         click_on 'Categorias de Carros'
     
         expect(page).to have_content('Nenhuma categoria de carro cadastrada')
+      end
+
+      scenario 'and view filtered car models' do
+        # Arrange
+        car_category_a = CarCategory.create!(name: 'A', daily_rate: 50, car_insurance: 40, 
+                                                third_part_insurance: 30)
+
+        car_category_b = CarCategory.create!(name: 'B', daily_rate: 50, car_insurance: 40, 
+            third_part_insurance: 30)
+        
+        manufacturer = Manufacturer.create!(name: 'Fiat')
+
+        uno = CarModel.create!(name: 'Uno', year: 2020, manufacturer: manufacturer,
+                         motorization: 1.0, fuel_type: 'Flex', 
+                        car_category: car_category_a)
+        
+        mobi = CarModel.create!(name: 'Mobi', year: 2019, manufacturer: manufacturer,
+                         motorization: 1.0, fuel_type: 'Flex', 
+                         car_category: car_category_a)
+
+        argos = CarModel.create!(name: 'Argos', year: 2019, manufacturer: manufacturer,
+                 motorization: 1.0, fuel_type: 'Flex', 
+                 car_category: car_category_b)
+
+        # Act
+        visit root_path
+        click_on 'Categorias de Carros'
+        click_on 'Categoria A'
+
+        # Assert
+        expect(page).to have_link('Uno', href: car_model_path(uno))
+        expect(page).to have_link('Mobi', href: car_model_path(mobi))
+        expect(page).not_to have_link('Argos', href: car_model_path(argos))
+
       end
 end
