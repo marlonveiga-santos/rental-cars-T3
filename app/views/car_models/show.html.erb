@@ -3,7 +3,7 @@
   <dt> Modelo de Carro: </dt>
   <dd> <%= @car_model.name %> </dd>
 
-  <dt> Fabricante: </dt>
+  <dt> <%= CarModel.human_attribute_name(:manufacturer) %>: </dt>
   <dd> <%= @car_model.manufacturer.name %> </dd>
 
   <dt> Ano: </dt>
