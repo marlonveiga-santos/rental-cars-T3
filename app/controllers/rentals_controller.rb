@@ -17,4 +17,14 @@ class RentalsController < ApplicationController
                                            :customer_id, :car_category_id))
   redirect_to rentals_path
   end
+
+  def search
+    @q = params[:q]
+    @rental = Rental.find_by(code: @q.upcase)
+    #if @rental.blank? || @q.blank?
+    #  @rentals = Rental.all
+    #  flash.now[:alert] = "Nenhum resultado encontrado para: #{@q}"
+    #  render :index
+    #end
+  end
 end
